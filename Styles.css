@@ -325,7 +325,8 @@ body {
   }
   
   .projectlist > div {
-    background: #fff;
+    background: #58585886;
+    color: #fff;
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 2px 8px rgb(182, 77, 77);
@@ -349,7 +350,7 @@ body {
   
   .projectlist p {
     margin-bottom: 0;
-    color: #0a0a0a;
+    color: #ffffff;
   }
   
   .view-more {
