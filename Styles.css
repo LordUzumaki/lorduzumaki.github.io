@@ -1,3 +1,6 @@
+/* style.css */
+
+/* 1. Custom font */
 @font-face {
   font-family: 'TarrgetChromeItalic';
   src: url('/Font/XerodaRegular-p7dwr.otf') format('opentype');
@@ -5,417 +8,369 @@
   font-style: normal;
 }
 
-/* reset margins/padding, no flex on body */
+/* 2. Global reset + box‐sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 3. Body */
 body {
   background-color: #b1bbdd3f;
   background-image: url('/image/3d-rendering-hexagonal-texture-background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
   color: #1f1b1b;
   font-family: 'TarrgetChromeItalic', sans-serif;
-  overflow: auto;
-  /* let it grow to fill smaller viewports but cap at 900px */
+  line-height: 1.5;
   width: 100%;
-  max-width: 900px;
-
-  /* 51px top/bottom, auto left/right to center */
-  margin: 92px auto;
-
-  /* breathing room on the sides */
-  padding: 0 16px;
+  max-width: 100vw;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 1rem;
 }
-  .wrapper {
-    max-width: 800px;      /* pick the width you like */
-    margin: 51px auto;     /* center with top/bottom spacing */
-    padding: 0 16px;       /* breathing room at the sides */
-    background: #3f79e600;     /* if you want a white “page” inside the grey background */
-    border-radius: 8px;    /* optional rounded corners */
-  }
-  
-  /* center hero content but allow page to scroll */
-  
-  /* image styling */
-  .my-image img {
-    
-    width: 200px;
-    height: auto;
-    opacity: 5;
-    border-radius: 50%; /* optional circle */
-    display: block;
-    margin: auto;
-    
-  }
+
+/* 4. Wrapper (centers content) */
+.wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+  background: rgba(63, 121, 230, 0); /* transparent—you can adjust */
+  border-radius: 0.5rem;
+}
+
+/* 5. Hero: tabs + profile */
+/* 1. Turn .hero into a 3×3 grid around the profile */
+.hero {
+  display: grid;
+  grid-template-areas:
+    ".        profile      ."
+    "about    profile   projects"
+    ".        resume       .";
+  grid-template-columns: auto auto auto;
+  grid-template-rows:   auto auto auto;
+  align-items:    center;
+  justify-items:  center;
+  gap: 1rem;
+}
+
+/* 2. Assign each nav to its spot */
+.hero > .tabs:first-of-type {    /* About Me */
+  grid-area: about;
+}
+
+.hero > .topTabs {               /* Projects */
+  grid-area: projects;
+}
+
+.hero > .tabs:last-of-type {     /* Resume */
+  grid-area: resume;
+}
+.hero > .tabs:last-of-type .tab { /* Resume */
+  font-size: clamp(1rem, 3vw, 1.3rem);
+}
+/* 3. Make the profile sit in the middle */
+.profile-area {
+  grid-area: profile;
+}
+
+/* 4. Remove any leftover translate() hacks */
+.hero .tabs,
+.hero .topTabs,
+.hero .tab,
+.hero .topTab,
+.profile-area .my-image {
+  transform: none !important;
+}
+
+
+/* 6. Tabs */
+.tabs,
+.topTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tab,
+.topTab {
+  display: inline-block;
+  text-decoration: none;
+  color: #fff;
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  background: rgba(0, 0, 0, 0.2);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.tab:hover,
+.topTab:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* 7. Profile area */
+.profile-area {
+  text-align: center;
+  flex: 1 1 200px;
+}
+
+.profile-area .my-image {
+  width: clamp(6rem, 20vw, 12rem);
+  height: auto;
+  border-radius: 50%;
+  opacity: 0.9;
+  display: block;
+  margin: 0 auto 1rem;
+}
+
+.my-name {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.my-title {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  color: #ffffff;
+}
+
+/* 8. About section */
+#about {
+  background: rgba(63, 59, 59, 0.6);
+  color: #f7f7f7;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  margin-bottom: 2rem;
+}
+
+#about p {
+  text-indent: 1rem;
+  margin-bottom: 1rem;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+}
+
+/* 9. Logo slider */
+.logo-slider {
+  overflow: hidden;
+  width: 100%;
+  margin: 2rem auto;
+}
+
+.logo-track {
+  display: flex;
+  gap: 1rem;
+  animation: scroll 20s linear infinite;
+}
+
+.tech-icon {
+  width: clamp(2.5rem, 5vw, 3rem);
+  height: auto;
+  transition: transform 0.3s, filter 0.3s;
+}
+
+.tech-icon:hover {
+  transform: scale(1.2);
+  filter: hue-rotate(90deg) brightness(1.2);
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.logo-slider:hover .logo-track {
+  animation-play-state: paused;
+}
+
+/* 10. Projects */
+.projects {
+  margin: 2rem 0;
+}
+
+.projects-title {
+  text-align: center;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.projectlist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.project-item {
+  background: rgba(88, 88, 88, 0.6);
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(182, 77, 77, 0.7);
+  flex: 1 1 calc(33% - 1rem);
+  min-width: 200px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.project-item:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: 0 4px 16px rgba(20,20,20,0.5);
+}
+
+.project-item h3,
+.project-item h4 {
+  margin-bottom: 0.5rem;
+}
+
+.project-item p {
+  margin-bottom: 0.75rem;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+}
+
+.project-item .tech-icon {
+  margin-right: 0.5rem;
+}
+
+/* 11. View more */
+.view-more {
+  display: inline-block;
+  margin: 1.5rem 0 0; 
+  text-decoration: none;
+  color: #fff;                     /* white text */
+  background: #1976d2;             /* blue background */
+  padding: 0.75rem 1.5rem;
+  border-radius: 1.25rem;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.view-more:hover {
+  filter: hue-rotate(90deg) brightness(1.2);
+  transform: translateY(-2px);
+}
+.view-more:hover,
+.view-more:focus {
+  background: #1565c0;             /* darker blue on hover/focus */
+  transform: translateY(-2px);     /* tiny lift effect */
+}
+.footer-content {
+  display: flex;               /* turn on flexbox */
+  flex-wrap: wrap;             /* in case on tiny screens they need to wrap */
+  justify-content: center;     /* center the group (or use space-between) */
+  align-items: center;         /* vertically center them */
+  gap: 2rem;                   /* space between each item */
+  padding: 1rem 0;             /* optional top/bottom breathing room */
+}
+
+.footer-content > p {
+  margin: 0;                   /* kill default paragraph margins */
+}
+
+.footer-content a {
+  display: inline-block;       /* let the padding/background apply neatly */
+}
+/* 12. Footer */
+.footer-content a {
+  display: inline-block;           /* lets us add padding */
+  text-decoration: none;           /* kill the underline */
+  color: #1f1f1f;                  /* link text color */
+  background: #eceff1;             /* light gray background */
+  padding: 0.5rem 1rem;            /* clickable “pill” */
+  border-radius: 0.25rem;          /* rounded corners */
+  font-weight: 500;
+  transition: background 0.3s, color 0.3s;
+}
+
+.footer-content a:hover {
+  filter: hue-rotate(90deg) brightness(1.2);
+  transform: translateY(-2px);
+}
+.footer-content a:hover,
+.footer-content a:focus {
+  background: #cfd8dc;             /* darker gray on hover/focus */
+  color: #000;                     /* darker text */
+}
+
+
+
+
+
+
+
+/* 13. Responsive breakpoints */
+@media (max-width: 768px) {
   .hero {
-    display: flex;
-    align-items: center;  /* vertical align */
-    justify-content: center; /* center them horizontally in wrapper */
-    gap: 2rem;            /* space between image and tabs */
-    margin: 2rem auto;    /* space above/below */
-    max-width: 900px;     /* or whatever your wrapper width is */
+    flex-direction: column;
+    text-align: center;
   }
-  
-  /* profile pic sizing */
-  .profile-area .my-image {
-    width: 150px;         /* adjust as needed */
-    height: auto;
-    border-radius: 50%;
-    opacity: .9;
-    transform: translate(-35px, 0px);
-    
-  }
-  
+
+  .tabs,
   .topTabs {
-    display: flex;
-    gap: 1.5rem;
+    justify-content: center;
   }
 
-  .topTab{
-    text-decoration: none;
-    color: #fff;          /* or your desired color */
-    font-size: 1.1rem;
-    padding: .5rem 1rem;
-    border-radius: 4px;
-    transition: background .3s;
-    transform: translate(119px, -174px);
+  .project-item {
+    flex: 1 1 100%;
   }
 
-  .topTab:hover {
-    background: rgba(255,255,255, .2);
-  }
-  /* tabs styling */
-  .tabs {
-    display: flex;
-    gap: 1.5rem;
-  }
-  
-  .tab {
-    text-decoration: none;
-    color: #fff;          /* or your desired color */
-    font-size: 1.1rem;
-    padding: .5rem 1rem;
-    border-radius: 4px;
-    transition: background .3s;
-    transform: translate(-2px, 0px);
-  }
-  
-  .tab:hover {
-    background: rgba(255,255,255, .2);
-  }
-  /* name and title spaced by margins */
-  .my-name {
-    margin-top: 1.5rem;
-    color: #ffffff;
-    
-    font-size: 2rem; /* 32px */
-    text-align: center;
-    transform: translate(-45px, 0px);
-  }
-  
-  .my-title {
-    margin-top: 0.5rem;
-    color: #ffffff;
-    font-size: 1.5rem; /* 25px */
-    text-align: center;
-    transform: translate(-44px, 0px);
-  }
-  
-  .footer-content{
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    flex-wrap: nowrap;          /* allow items to wrap on narrow screens */
-    max-width: 1000px;
-    margin: -1px auto;
-    padding: 20px 16px;
-    justify-content: space-between; /* center the row */
-    translate: -291px 0px;
-  }
-  
-  .email {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 1rem;
-    
-    color: inherit;   
-    line-height: 16px; 
-    padding: 12px; 
-    border-radius: 24px; 
-    
-    font-weight: normal; 
-    text-decoration: none;  /* strips the underline */
-          /* keeps the same color as surrounding text */
-           /* adjust as needed */
-    
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-   
-    font-variant: normal; 
-    text-transform: none; 
-    background-image: linear-gradient(to right, rgb(206, 206, 206) 0%, rgb(191, 203, 211) 50%, rgb(191, 195, 198) 100%); 
-    box-shadow: rgb(0, 0, 0) 5px 5px 15px 5px; 
-    box-sizing: border-box;
-    border: 2px solid rgb(0, 0, 0); 
-    display: inline-block;
-    object-fit: contain;
-    transform: scale(1.2) translate(250px, 0px);
-  }
-
-  .github {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 1rem;
-    
-    color: inherit;   
-    line-height: 16px; 
-    padding: 12px; 
-    border-radius: 24px; 
-    
-    font-weight: normal; 
-    text-decoration: none;  /* strips the underline */
-          /* keeps the same color as surrounding text */
-           /* adjust as needed */
-    
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-   
-    font-variant: normal; 
-    text-transform: none; 
-    background-image: linear-gradient(to right, rgb(206, 206, 206) 0%, rgb(191, 203, 211) 50%, rgb(191, 195, 198) 100%); 
-    box-shadow: rgb(0, 0, 0) 5px 5px 15px 5px; 
-    box-sizing: border-box;
-    border: 2px solid rgb(0, 0, 0); 
-    display: inline-block;
-    object-fit: contain;
-    transform: scale(1.2) translate(250px, 0px);
-  }
-
-  .linkedin {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 1rem;
-    
-    color: inherit;   
-    line-height: 16px; 
-    padding: 12px; 
-    border-radius: 24px; 
-    
-    font-weight: normal; 
-    text-decoration: none;  /* strips the underline */
-          /* keeps the same color as surrounding text */
-           /* adjust as needed */
-    
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-   
-    font-variant: normal; 
-    text-transform: none; 
-    background-image: linear-gradient(to right, rgb(206, 206, 206) 0%, rgb(191, 203, 211) 50%, rgb(191, 195, 198) 100%); 
-    box-shadow: rgb(0, 0, 0) 5px 5px 15px 5px; 
-    box-sizing: border-box;
-    border: 2px solid rgb(0, 0, 0); 
-    display: inline-block;
-    object-fit: contain;
-    transform: scale(1.2) translate(250px, 0px);
-  }
-
-  .linkedin:hover {
-    
-    filter: hue-rotate(90deg) brightness(1.2);
-    
-  
-  }
-  .github:hover {
-    
-    filter: hue-rotate(90deg) brightness(1.2);
-    
-  
-  }
-  .email:hover {
-    
-    filter: hue-rotate(90deg) brightness(1.2);
-    
-  
-  }
-  /* about section */
-  #about {
-    color: #f7f7f7;
-    font-size: 1.25rem; /* 21px */
-    text-align:left;
-    width: 90%;
-    max-width: 800px;
-    margin: 4rem auto;   /* space above/below and center horizontally */
-    padding: 2rem;
-    background: #3f3b3b7a;
-    border: 1px solid #ccc;
-    border-radius:8px;
-    box-shadow: 0 2px 4px rgb(0, 0, 0);
-  }
-  
-  /* remove any leftover .text if unused */
-  
-  .logo-slider {
-    overflow: hidden;           /* hide overflow */
-    width: 100%;
-    max-width: 1000px;          /* optional cap */
-    margin: 50px auto;          /* center & vertical spacing */
-    background: #02020200;
-    border-radius: 9999px;
-    padding: 12px 0;            /* vertical padding */
-    box-sizing: border-box;
-    perspective: 500px;         /* if you want 3D effects */
-  }
-
-  /* The moving track */
   .logo-track {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    animation: scroll 20s linear infinite;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 0.5rem;
   }
 
-  /* Your icons */
+  .my-name {
+    font-size: 1.5rem;
+  }
+
+  .my-title {
+    font-size: 1.1rem;
+  }
+
   .tech-icon {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    transform-origin: center center;
-    /* optional rocking effect */
-    /* animation: rock 3s ease-in-out infinite alternate; */
+    width: 2.5rem;
   }
+}
 
-  .tech-icon:hover {
-    /* grow 20% */
-    transform: scale(1.2);
-    /* shift colors & brighten */
-    filter: hue-rotate(90deg) brightness(1.2);
-  }
-  /* Slide the track left by 50% (one full icon-set) */
-  @keyframes scroll {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
+/* ——— Centered, auto-sizing Resume ——— */
+#resume {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: transparent;        /* no black backdrop */
+}
 
-  /* Optional: a gentle rock */
-  @keyframes rock {
-    from { transform: rotateY(-15deg); }
-    to   { transform: rotateY( 15deg); }
-  }
+#resume .section-title {
+  margin-bottom: 1rem;
+  color: #f7f7f7;
+  text-align: center;
+}
 
-  /* Pause on hover */
-  .logo-slider:hover .logo-track {
-    animation-play-state: paused;
-  }
+#resume iframe {
+  width: 100%;                    /* fills container */
+  max-width: 900px;               /* caps at desktop size */
+  
+  /* Preserve an 8.5×11 aspect ratio so height matches exactly */
+  aspect-ratio: 8.5 / 11;
+  
+  /* Remove any old fallbacks: */
+  height: auto !important;
+  min-height: 0 !important;       /* no forced minimum height */
+  
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
 
 
-  .projects {
-    
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px 16px;
-  }
-  
-  .projects-title {
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 24px;
-    font-size: 2rem;
-  }
-  
-  .projectlist {
-    display: flex;
-    flex-wrap: nowrap;          /* allow items to wrap on narrow screens */
-    gap: 20px;                /* space between cards */
-    justify-content: space-between;  /* center the row */
-  }
-  
-  .projectlist > div {
-    background: #58585886;
-    color: #fff;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 2px 8px rgb(182, 77, 77);
-    flex: 0 0 calc((100% - 40px) / 3);
-    max-width: calc((100% - 40px) / 3);
-    box-sizing: border-box;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
-  }
-  
-  /* optional hover effect */
-  .projectlist > div:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 16px rgb(20, 20, 20);
-  }
-  
-  .projectlist h3 {
-    margin-top: 0;
-    font-size: 1.25rem;
-  }
-  
-  .projectlist p {
-    margin-bottom: 0;
-    color: #ffffff;
-  }
-  
-  .view-more {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 1rem;
-   
-    color: inherit;   
-    line-height: 16px; 
-    padding: 12px; 
-    border-radius: 24px; 
-    
-    font-weight: normal; 
-    text-decoration: none;  /* strips the underline */
-          /* keeps the same color as surrounding text */
-           /* adjust as needed */
-    
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-   
-    font-variant: normal; 
-    text-transform: none; 
-    background-image: linear-gradient(to right, rgb(206, 206, 206) 0%, rgb(191, 203, 211) 50%, rgb(191, 195, 198) 100%); 
-    box-shadow: rgb(0, 0, 0) 5px 5px 15px 5px; 
-    box-sizing: border-box;
-    border: 2px solid rgb(0, 0, 0); 
-    display: inline-block;
-    object-fit: contain;
-    transform: scale(1.2) translate(250px, 0px);
-    
-  
-    
-  }
-  
-  .view-more:hover {
-    
-    filter: hue-rotate(90deg) brightness(1.2);
-    
-  
-  }
-  .section-title {
-    text-align: center;
-    color: #fff;
-    margin-top: 4rem;
-    font-size: 2rem;
-  }
-  
-  /* Resume iframe container */
-  #resume iframe {
-    display: block;
-    margin: 2rem auto;
-    max-width: 800px;
-    width: 100%;
-    height: 1000px; /* adjust as needed */
-  }
-  
-  /* Fallback link styling */
-  #resume p a {
-    color: #00aced;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  #resume p a:hover {
-    text-decoration: underline;
-  }
-
-  
-  
-  
